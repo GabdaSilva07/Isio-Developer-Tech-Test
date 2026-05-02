@@ -298,3 +298,6 @@ __pycache__/
 *.odx.cs
 *.xsd.cs
 .vscode
+
+# Personal working notes
+DEV_TASKS.md

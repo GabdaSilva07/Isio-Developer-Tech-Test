@@ -89,4 +89,18 @@ public class GildedRoseTests
         // Assert
         Assert.Equal(1, Items[0].Quality);
     }
+
+    [Fact]
+    public void UpdateQuality_DropsBackstagePassQualityToZeroAfterConcert()
+    {
+        // Arrange
+        IList<Item> Items = new List<Item> { new() { Name = "Backstage passes to a TAFKAL80ETC concert", SellIn = 0, Quality = 20 } };
+        GildedRose app = new GildedRose(Items);
+
+        // Act
+        app.UpdateQuality();
+
+        // Assert
+        Assert.Equal(0, Items[0].Quality);
+    }
 }
