@@ -1,6 +1,6 @@
 ﻿namespace GildedRoseKata;
 
-internal enum ItemRuleType
+public enum ItemRuleType
 {
     Normal,
     AgedBrie,
