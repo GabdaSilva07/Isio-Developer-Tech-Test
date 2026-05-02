@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
+using GildedRoseKata.Rules;
 
 namespace GildedRoseKata;
 
 public class GildedRose
 {
     IList<Item> Items;
+    private readonly NormalItemRule normalItemRule = new();
 
     public GildedRose(IList<Item> Items)
     {
@@ -15,6 +17,12 @@ public class GildedRose
     {
         for (var i = 0; i < Items.Count; i++)
         {
+            if (ItemRuleTypeResolver.Resolve(Items[i]) == ItemRuleType.Normal)
+            {
+                normalItemRule.Update(Items[i]);
+                continue;
+            }
+
             if (Items[i].Name != ItemNames.AgedBrie && Items[i].Name != ItemNames.BackstagePass)
             {
                 if (Items[i].Quality > 0)
