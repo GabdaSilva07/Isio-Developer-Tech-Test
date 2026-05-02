@@ -47,4 +47,32 @@ public class GildedRoseTests
         // Assert
         Assert.Equal(19, Items[0].Quality);
     }
+
+    [Fact]
+    public void UpdateQuality_ReducesNormalItemQualityByTwoAfterSellDate()
+    {
+        // Arrange
+        IList<Item> Items = new List<Item> { new() { Name = "+5 Dexterity Vest", SellIn = 0, Quality = 20 } };
+        GildedRose app = new GildedRose(Items);
+
+        // Act
+        app.UpdateQuality();
+
+        // Assert
+        Assert.Equal(18, Items[0].Quality);
+    }
+
+    [Fact]
+    public void UpdateQuality_DoesNotReduceNormalItemQualityBelowZero()
+    {
+        // Arrange
+        IList<Item> Items = new List<Item> { new() { Name = "+5 Dexterity Vest", SellIn = 0, Quality = 0 } };
+        GildedRose app = new GildedRose(Items);
+
+        // Act
+        app.UpdateQuality();
+
+        // Assert
+        Assert.Equal(0, Items[0].Quality);
+    }
 }
