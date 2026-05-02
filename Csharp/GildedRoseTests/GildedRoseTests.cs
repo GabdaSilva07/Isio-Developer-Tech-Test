@@ -75,4 +75,18 @@ public class GildedRoseTests
         // Assert
         Assert.Equal(0, Items[0].Quality);
     }
+
+    [Fact]
+    public void UpdateQuality_IncreasesAgedBrieQualityByOne()
+    {
+        // Arrange
+        IList<Item> Items = new List<Item> { new() { Name = "Aged Brie", SellIn = 2, Quality = 0 } };
+        GildedRose app = new GildedRose(Items);
+
+        // Act
+        app.UpdateQuality();
+
+        // Assert
+        Assert.Equal(1, Items[0].Quality);
+    }
 }
