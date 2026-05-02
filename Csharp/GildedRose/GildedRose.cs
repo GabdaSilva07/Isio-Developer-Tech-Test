@@ -7,6 +7,7 @@ public class GildedRose
 {
     IList<Item> Items;
     private readonly NormalItemRule normalItemRule = new();
+    private readonly AgedBrieRule agedBrieRule = new();
 
     public GildedRose(IList<Item> Items)
     {
@@ -17,13 +18,21 @@ public class GildedRose
     {
         for (var i = 0; i < Items.Count; i++)
         {
-            if (ItemRuleTypeResolver.Resolve(Items[i]) == ItemRuleType.Normal)
+            var itemRuleType = ItemRuleTypeResolver.Resolve(Items[i]);
+
+            if (itemRuleType == ItemRuleType.Normal)
             {
                 normalItemRule.Update(Items[i]);
                 continue;
             }
 
-            if (Items[i].Name != ItemNames.AgedBrie && Items[i].Name != ItemNames.BackstagePass)
+            if (itemRuleType == ItemRuleType.AgedBrie)
+            {
+                agedBrieRule.Update(Items[i]);
+                continue;
+            }
+
+            if (Items[i].Name != ItemNames.BackstagePass)
             {
                 if (Items[i].Quality > 0)
                 {
@@ -67,29 +76,19 @@ public class GildedRose
 
             if (Items[i].SellIn < 0)
             {
-                if (Items[i].Name != ItemNames.AgedBrie)
+                if (Items[i].Name != ItemNames.BackstagePass)
                 {
-                    if (Items[i].Name != ItemNames.BackstagePass)
+                    if (Items[i].Quality > 0)
                     {
-                        if (Items[i].Quality > 0)
+                        if (Items[i].Name != ItemNames.Sulfuras)
                         {
-                            if (Items[i].Name != ItemNames.Sulfuras)
-                            {
-                                Items[i].Quality = Items[i].Quality - 1;
-                            }
+                            Items[i].Quality = Items[i].Quality - 1;
                         }
-                    }
-                    else
-                    {
-                        Items[i].Quality = Items[i].Quality - Items[i].Quality;
                     }
                 }
                 else
                 {
-                    if (Items[i].Quality < 50)
-                    {
-                        Items[i].Quality = Items[i].Quality + 1;
-                    }
+                    Items[i].Quality = Items[i].Quality - Items[i].Quality;
                 }
             }
         }
