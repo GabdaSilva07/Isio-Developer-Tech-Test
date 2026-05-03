@@ -2,7 +2,10 @@
 
 public class ConjuredItemRule : ItemRuleBase
 {
-    public override ItemRuleType RuleType => ItemRuleType.Conjured;
+    public override bool Matches(Item item)
+    {
+        return item.Name.StartsWith(ItemNames.ConjuredPrefix);
+    }
 
     public override void Update(Item item)
     {

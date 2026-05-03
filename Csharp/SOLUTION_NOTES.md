@@ -43,8 +43,7 @@ Normal items:
 - Keep `GildedRose.UpdateQuality()` as the method that updates all items.
 - Move the item-specific update logic out of the large nested `if` block.
 - Use small rule classes for each item type.
-- Use a rule type enum to make the item types explicit.
-- Use a resolver to map `Item.Name` to the correct rule type.
+- Let each rule decide if it matches an item.
 - Keep the normal item rule as the fallback.
 - Keep the design small. No repository or service layer needed for this kata.
 - Add enough tests to cover the existing rules before relying on the refactor.
@@ -53,8 +52,9 @@ Normal items:
 ## Why this approach
 
 - The main thing that changes between items is behavior.
-- Strategy-style rules keep each behavior separate.
+- Strategy-pattern keeps each behavior separate.
 - Adding Conjured should not mean adding more nested conditions inside UpdateQuality().
-- A resolver keeps the item-name mapping in one place.
-- I considered a factory-style setup as well, but for this project I think a resolver plus small rule classes is enough.
+- I originally considered a resolver, but letting each rule match its own item keeps the code smaller.
+- The normal item rule is last because it is the fallback.
+- I considered a factory-style setup as well, but for this project I think small rule classes are enough.
 - If this grew into a larger stock system with more operations, such as adding, removing, patching, or restocking items, I would consider a factory for choosing the right behavior.

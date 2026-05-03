@@ -2,7 +2,10 @@
 
 public class SulfurasRule : ItemRuleBase
 {
-    public override ItemRuleType RuleType => ItemRuleType.Sulfuras;
+    public override bool Matches(Item item)
+    {
+        return item.Name == ItemNames.Sulfuras;
+    }
 
     public override void Update(Item item)
     {

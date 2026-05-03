@@ -2,7 +2,10 @@
 
 public class NormalItemRule : ItemRuleBase
 {
-    public override ItemRuleType RuleType => ItemRuleType.Normal;
+    public override bool Matches(Item item)
+    {
+        return true;
+    }
 
     public override void Update(Item item)
     {

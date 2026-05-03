@@ -2,7 +2,10 @@
 
 public class AgedBrieRule : ItemRuleBase
 {
-    public override ItemRuleType RuleType => ItemRuleType.AgedBrie;
+    public override bool Matches(Item item)
+    {
+        return item.Name == ItemNames.AgedBrie;
+    }
 
     public override void Update(Item item)
     {

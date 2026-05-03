@@ -2,7 +2,10 @@
 
 public class BackstagePassRule : ItemRuleBase
 {
-    public override ItemRuleType RuleType => ItemRuleType.BackstagePass;
+    public override bool Matches(Item item)
+    {
+        return item.Name == ItemNames.BackstagePass;
+    }
 
     public override void Update(Item item)
     {

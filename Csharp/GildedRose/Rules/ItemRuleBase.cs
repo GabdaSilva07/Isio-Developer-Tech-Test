@@ -6,7 +6,7 @@ public abstract class ItemRuleBase
 {
     private const int MaximumQuality = 40;
 
-    public abstract ItemRuleType RuleType { get; }
+    public abstract bool Matches(Item item);
 
     public abstract void Update(Item item);
 
