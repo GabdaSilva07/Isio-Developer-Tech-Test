@@ -52,7 +52,7 @@ Normal items:
 ## Why this approach
 
 - The main thing that changes between items is behavior.
-- Strategy-pattern keeps each behavior separate.
+- Strategy pattern keeps each behavior separate.
 - Adding Conjured should not mean adding more nested conditions inside UpdateQuality().
 - I originally considered a resolver, but letting each rule match its own item keeps the code smaller.
 - The normal item rule is last because it is the fallback.
