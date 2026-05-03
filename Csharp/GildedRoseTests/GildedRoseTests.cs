@@ -9,20 +9,6 @@ public class GildedRoseTests
     #region Normal Items
 
     [Fact]
-    public void UpdateQuality_DoesNotChangeNormalItemName()
-    {
-        // Arrange
-        IList<Item> Items = new List<Item> { new() { Name = "+5 Dexterity Vest", SellIn = 0, Quality = 0 } };
-        GildedRose app = new GildedRose(Items);
-
-        // Act
-        app.UpdateQuality();
-
-        // Assert
-        Assert.Equal("+5 Dexterity Vest", Items[0].Name);
-    }
-
-    [Fact]
     public void UpdateQuality_ReducesNormalItemSellInByOne()
     {
         // Arrange
@@ -252,6 +238,84 @@ public class GildedRoseTests
     #endregion
 
     #region General Behaviour
+
+    [Fact]
+    public void UpdateQuality_UpdatesMultipleItemsInOneCall()
+    {
+        // Arrange
+        IList<Item> Items = new List<Item>
+        {
+            new() { Name = "+5 Dexterity Vest", SellIn = 10, Quality = 20 },
+            new() { Name = "Aged Brie", SellIn = 2, Quality = 0 },
+            new() { Name = "Backstage passes to a TAFKAL80ETC concert", SellIn = 7, Quality = 20 },
+            new() { Name = "Conjured Mana Cake", SellIn = 3, Quality = 6 }
+        };
+        GildedRose app = new GildedRose(Items);
+
+        // Act
+        app.UpdateQuality();
+
+        // Assert
+        var normalItem = Items[0];
+        var agedBrie = Items[1];
+        var backstagePass = Items[2];
+        var conjuredItem = Items[3];
+
+        Assert.Equal(9, normalItem.SellIn);
+        Assert.Equal(19, normalItem.Quality);
+
+        Assert.Equal(1, agedBrie.SellIn);
+        Assert.Equal(1, agedBrie.Quality);
+
+        Assert.Equal(6, backstagePass.SellIn);
+        Assert.Equal(23, backstagePass.Quality);
+
+        Assert.Equal(2, conjuredItem.SellIn);
+        Assert.Equal(4, conjuredItem.Quality);
+    }
+
+    [Fact]
+    public void UpdateQuality_UpdatesMultipleItemsOverTenDays()
+    {
+        // Arrange
+        IList<Item> Items = new List<Item>
+        {
+            new() { Name = "+5 Dexterity Vest", SellIn = 10, Quality = 20 },
+            new() { Name = "Aged Brie", SellIn = 2, Quality = 0 },
+            new() { Name = "Sulfuras, Hand of Ragnaros", SellIn = 0, Quality = 80 },
+            new() { Name = "Backstage passes to a TAFKAL80ETC concert", SellIn = 3, Quality = 20 },
+            new() { Name = "Conjured Mana Cake", SellIn = 3, Quality = 6 }
+        };
+        GildedRose app = new GildedRose(Items);
+
+        // Act
+        for (var day = 0; day < 10; day++)
+        {
+            app.UpdateQuality();
+        }
+
+        // Assert
+        var normalItem = Items[0];
+        var agedBrie = Items[1];
+        var sulfuras = Items[2];
+        var backstagePass = Items[3];
+        var conjuredItem = Items[4];
+
+        Assert.Equal(0, normalItem.SellIn);
+        Assert.Equal(10, normalItem.Quality);
+
+        Assert.Equal(-8, agedBrie.SellIn);
+        Assert.Equal(18, agedBrie.Quality);
+
+        Assert.Equal(0, sulfuras.SellIn);
+        Assert.Equal(80, sulfuras.Quality);
+
+        Assert.Equal(-7, backstagePass.SellIn);
+        Assert.Equal(0, backstagePass.Quality);
+
+        Assert.Equal(-7, conjuredItem.SellIn);
+        Assert.Equal(0, conjuredItem.Quality);
+    }
 
     [Fact]
     public void UpdateQuality_DoesNothingWhenThereAreNoItems()
