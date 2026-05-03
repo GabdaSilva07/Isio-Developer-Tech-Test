@@ -9,6 +9,7 @@ public class GildedRose
     private readonly NormalItemRule normalItemRule = new();
     private readonly AgedBrieRule agedBrieRule = new();
     private readonly SulfurasRule sulfurasRule = new();
+    private readonly BackstagePassRule backstagePassRule = new();
 
     public GildedRose(IList<Item> Items)
     {
@@ -39,32 +40,9 @@ public class GildedRose
                 continue;
             }
 
-            if (Items[i].Quality < 50)
+            if (itemRuleType == ItemRuleType.BackstagePass)
             {
-                Items[i].Quality = Items[i].Quality + 1;
-
-                if (Items[i].SellIn < 11)
-                {
-                    if (Items[i].Quality < 50)
-                    {
-                        Items[i].Quality = Items[i].Quality + 1;
-                    }
-                }
-
-                if (Items[i].SellIn < 6)
-                {
-                    if (Items[i].Quality < 50)
-                    {
-                        Items[i].Quality = Items[i].Quality + 1;
-                    }
-                }
-            }
-
-            Items[i].SellIn = Items[i].SellIn - 1;
-
-            if (Items[i].SellIn < 0)
-            {
-                Items[i].Quality = 0;
+                backstagePassRule.Update(Items[i]);
             }
         }
     }
