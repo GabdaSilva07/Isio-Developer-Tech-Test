@@ -6,11 +6,14 @@ namespace GildedRoseKata;
 public class GildedRose
 {
     IList<Item> Items;
-    private readonly NormalItemRule normalItemRule = new();
-    private readonly AgedBrieRule agedBrieRule = new();
-    private readonly SulfurasRule sulfurasRule = new();
-    private readonly BackstagePassRule backstagePassRule = new();
-    private readonly ConjuredItemRule conjuredItemRule = new();
+    private readonly IDictionary<ItemRuleType, ItemRuleBase> itemRules = new Dictionary<ItemRuleType, ItemRuleBase>
+    {
+        { ItemRuleType.Normal, new NormalItemRule() },
+        { ItemRuleType.AgedBrie, new AgedBrieRule() },
+        { ItemRuleType.Sulfuras, new SulfurasRule() },
+        { ItemRuleType.BackstagePass, new BackstagePassRule() },
+        { ItemRuleType.Conjured, new ConjuredItemRule() }
+    };
 
     public GildedRose(IList<Item> Items)
     {
@@ -22,35 +25,7 @@ public class GildedRose
         for (var i = 0; i < Items.Count; i++)
         {
             var itemRuleType = ItemRuleTypeResolver.Resolve(Items[i]);
-
-            if (itemRuleType == ItemRuleType.Normal)
-            {
-                normalItemRule.Update(Items[i]);
-                continue;
-            }
-
-            if (itemRuleType == ItemRuleType.AgedBrie)
-            {
-                agedBrieRule.Update(Items[i]);
-                continue;
-            }
-
-            if (itemRuleType == ItemRuleType.Sulfuras)
-            {
-                sulfurasRule.Update(Items[i]);
-                continue;
-            }
-
-            if (itemRuleType == ItemRuleType.BackstagePass)
-            {
-                backstagePassRule.Update(Items[i]);
-                continue;
-            }
-
-            if (itemRuleType == ItemRuleType.Conjured)
-            {
-                conjuredItemRule.Update(Items[i]);
-            }
+            itemRules[itemRuleType].Update(Items[i]);
         }
     }
 }
