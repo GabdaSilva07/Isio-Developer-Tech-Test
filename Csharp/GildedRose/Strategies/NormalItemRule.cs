@@ -1,4 +1,6 @@
-﻿namespace GildedRoseKata.Rules;
+﻿using GildedRoseKata.Domain;
+
+namespace GildedRoseKata.Strategies;
 
 public class NormalItemRule : ItemRuleBase
 {

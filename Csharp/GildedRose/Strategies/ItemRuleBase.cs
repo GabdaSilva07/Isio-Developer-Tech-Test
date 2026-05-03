@@ -1,6 +1,7 @@
 ﻿using System;
+using GildedRoseKata.Domain;
 
-namespace GildedRoseKata.Rules;
+namespace GildedRoseKata.Strategies;
 
 public abstract class ItemRuleBase
 {

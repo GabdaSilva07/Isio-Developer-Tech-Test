@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using GildedRoseKata.Domain;
+using GildedRoseKata.Services;
 
 namespace GildedRoseKata;
 

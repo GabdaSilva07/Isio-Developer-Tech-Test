@@ -1,4 +1,7 @@
-﻿namespace GildedRoseKata.Rules;
+﻿using GildedRoseKata.Constants;
+using GildedRoseKata.Domain;
+
+namespace GildedRoseKata.Strategies;
 
 public class ConjuredItemRule : ItemRuleBase
 {

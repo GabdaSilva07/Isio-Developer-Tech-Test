@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using GildedRoseKata.Rules;
+using GildedRoseKata.Domain;
+using GildedRoseKata.Strategies;
 
-namespace GildedRoseKata;
+namespace GildedRoseKata.Services;
 
 public class GildedRose
 {
