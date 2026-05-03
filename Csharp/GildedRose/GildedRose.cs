@@ -10,6 +10,7 @@ public class GildedRose
     private readonly AgedBrieRule agedBrieRule = new();
     private readonly SulfurasRule sulfurasRule = new();
     private readonly BackstagePassRule backstagePassRule = new();
+    private readonly ConjuredItemRule conjuredItemRule = new();
 
     public GildedRose(IList<Item> Items)
     {
@@ -43,6 +44,12 @@ public class GildedRose
             if (itemRuleType == ItemRuleType.BackstagePass)
             {
                 backstagePassRule.Update(Items[i]);
+                continue;
+            }
+
+            if (itemRuleType == ItemRuleType.Conjured)
+            {
+                conjuredItemRule.Update(Items[i]);
             }
         }
     }

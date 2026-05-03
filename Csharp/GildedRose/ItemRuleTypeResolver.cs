@@ -19,6 +19,11 @@ internal static class ItemRuleTypeResolver
             return ItemRuleType.BackstagePass;
         }
 
+        if (item.Name.StartsWith(ItemNames.ConjuredPrefix))
+        {
+            return ItemRuleType.Conjured;
+        }
+
         return ItemRuleType.Normal;
     }
 }

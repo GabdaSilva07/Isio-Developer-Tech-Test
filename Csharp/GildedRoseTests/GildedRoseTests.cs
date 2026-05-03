@@ -103,4 +103,32 @@ public class GildedRoseTests
         // Assert
         Assert.Equal(0, Items[0].Quality);
     }
+
+    [Fact]
+    public void UpdateQuality_ReducesConjuredItemQualityByTwoBeforeSellDate()
+    {
+        // Arrange
+        IList<Item> Items = new List<Item> { new() { Name = "Conjured Mana Cake", SellIn = 3, Quality = 6 } };
+        GildedRose app = new GildedRose(Items);
+
+        // Act
+        app.UpdateQuality();
+
+        // Assert
+        Assert.Equal(4, Items[0].Quality);
+    }
+
+    [Fact]
+    public void UpdateQuality_ReducesConjuredItemQualityByFourAfterSellDate()
+    {
+        // Arrange
+        IList<Item> Items = new List<Item> { new() { Name = "Conjured Mana Cake", SellIn = 0, Quality = 6 } };
+        GildedRose app = new GildedRose(Items);
+
+        // Act
+        app.UpdateQuality();
+
+        // Assert
+        Assert.Equal(2, Items[0].Quality);
+    }
 }
