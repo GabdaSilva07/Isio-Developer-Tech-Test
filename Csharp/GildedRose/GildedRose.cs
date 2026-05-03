@@ -8,6 +8,7 @@ public class GildedRose
     IList<Item> Items;
     private readonly NormalItemRule normalItemRule = new();
     private readonly AgedBrieRule agedBrieRule = new();
+    private readonly SulfurasRule sulfurasRule = new();
 
     public GildedRose(IList<Item> Items)
     {
@@ -32,64 +33,38 @@ public class GildedRose
                 continue;
             }
 
-            if (Items[i].Name != ItemNames.BackstagePass)
+            if (itemRuleType == ItemRuleType.Sulfuras)
             {
-                if (Items[i].Quality > 0)
+                sulfurasRule.Update(Items[i]);
+                continue;
+            }
+
+            if (Items[i].Quality < 50)
+            {
+                Items[i].Quality = Items[i].Quality + 1;
+
+                if (Items[i].SellIn < 11)
                 {
-                    if (Items[i].Name != ItemNames.Sulfuras)
+                    if (Items[i].Quality < 50)
                     {
-                        Items[i].Quality = Items[i].Quality - 1;
+                        Items[i].Quality = Items[i].Quality + 1;
                     }
                 }
-            }
-            else
-            {
-                if (Items[i].Quality < 50)
+
+                if (Items[i].SellIn < 6)
                 {
-                    Items[i].Quality = Items[i].Quality + 1;
-
-                    if (Items[i].Name == ItemNames.BackstagePass)
+                    if (Items[i].Quality < 50)
                     {
-                        if (Items[i].SellIn < 11)
-                        {
-                            if (Items[i].Quality < 50)
-                            {
-                                Items[i].Quality = Items[i].Quality + 1;
-                            }
-                        }
-
-                        if (Items[i].SellIn < 6)
-                        {
-                            if (Items[i].Quality < 50)
-                            {
-                                Items[i].Quality = Items[i].Quality + 1;
-                            }
-                        }
+                        Items[i].Quality = Items[i].Quality + 1;
                     }
                 }
             }
 
-            if (Items[i].Name != ItemNames.Sulfuras)
-            {
-                Items[i].SellIn = Items[i].SellIn - 1;
-            }
+            Items[i].SellIn = Items[i].SellIn - 1;
 
             if (Items[i].SellIn < 0)
             {
-                if (Items[i].Name != ItemNames.BackstagePass)
-                {
-                    if (Items[i].Quality > 0)
-                    {
-                        if (Items[i].Name != ItemNames.Sulfuras)
-                        {
-                            Items[i].Quality = Items[i].Quality - 1;
-                        }
-                    }
-                }
-                else
-                {
-                    Items[i].Quality = Items[i].Quality - Items[i].Quality;
-                }
+                Items[i].Quality = 0;
             }
         }
     }
